@@ -2,16 +2,19 @@
 <html>
     <head>
         <title>Automata Network</title>
+        <script src="defineNFA.js"></script>
     </head>
     <body>
         <h1>Automata Network</h1>
         <h2>Define NFA</h2>
-        <form id="nfa1">
+        <div id="nfa1">
             <label for="numStates">Enter the number of states:</label>
-            <input type="number" id="numStates" name="numStates" min="0" value="1">
+            <input type="number" id="numStates" min="0" value="1">
             <br>
-            <label for-="symbold">Enter the symbols for the alphabet (separated by commas):</label>
-            <input type="text" id="symbols" name="symbols" value="a,b">
-        </form>
+            <label for="symbols">Enter the symbols for the alphabet (separated by commas):</label>
+            <input type="text" id="symbols" value="a,b">
+            <br>
+            <button type="button" onclick="generateTransitionFunctionTable()">Proceed to transition function and final states</button>
+        </div>
     </body>
 </html>
