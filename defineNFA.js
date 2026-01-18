@@ -1,9 +1,21 @@
-function generateTransitionFunctionTable() {
-    // get values from initial input
-    const numStates = document.getElementById("numStates").valueAsNumber;
+let numStates;
+let symbols;
+let symbolSet;
 
-    const symbols = document.getElementById("symbols").value;
-    const symbolSet = new Set (
+function generateTransitionFunctionTable() {
+    const nfa2 = document.getElementById("nfa2");
+    let html = `
+        <p><b>Note:</b> The initial state will be q1</p>
+        <p>(To select multiple options or disselect an option, hold control (Windows) or command (MacOS) and click.)</p>
+        <p><b><u>Transition function:</b></u></p>
+    `;
+    nfa2.innerHTML += html;
+
+    // get values from initial input
+    numStates = document.getElementById("numStates").valueAsNumber;
+
+    symbols = document.getElementById("symbols").value;
+    symbolSet = new Set (
         symbols
             .split(",")
             .map(s => s.trim()) // remove surrounding spaces
@@ -66,6 +78,33 @@ function generateTransitionFunctionTable() {
     nfa1.style.display = "none";
 
     // insert table to web page
-    const nfa2 = document.getElementById("nfa2");
     nfa2.appendChild(table);
+
+    // final state selection
+    html = `
+        <p><b><u>Final states:</b></u></p>
+    `;
+    nfa2.innerHTML += html;
+
+    const select = document.createElement("select");
+    select.id = "finalStates";
+    select.multiple = true;
+    for (let i=1; i<=numStates; i++) {
+        const option = document.createElement("option");
+        option.value = "q" + i;
+        option.textContent = "q" + i;
+        select.appendChild(option);
+    }
+    nfa2.appendChild(select);
+
+    // submit button
+    html = `
+        <br><br>
+        <button type="button" onclick="getNFA()">Create NFA</button>
+    `;
+    nfa2.innerHTML += html;
+}
+
+function getNFA() {
+    
 }
