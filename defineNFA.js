@@ -106,5 +106,52 @@ function generateTransitionFunctionTable() {
 }
 
 function getNFA() {
-    
+    const nfa = {
+        states: [],
+        alphabet: [],
+        transitionFunction: {},
+        initialState: "q1",
+        finalStates: []
+    }
+
+    nfa.states.push("q1");
+    nfa.states.push("q2");
+    nfa.states.push("q3");
+    nfa.states.push("q4");
+
+    nfa.alphabet.push("0");
+    nfa.alphabet.push("1");
+
+    nfa.transitionFunction["q1"] = {};
+    nfa.transitionFunction["q2"] = {};
+    nfa.transitionFunction["q3"] = {};
+    nfa.transitionFunction["q4"] = {};
+
+    nfa.transitionFunction["q1"]["0"] = [];
+    nfa.transitionFunction["q1"]["1"] = [];
+    nfa.transitionFunction["q1"]["\u03B5"] = [];
+    nfa.transitionFunction["q1"]["0"].push("q1");
+    nfa.transitionFunction["q1"]["1"].push("q1");
+    nfa.transitionFunction["q1"]["1"].push("q2");
+
+    nfa.transitionFunction["q2"]["0"] = [];
+    nfa.transitionFunction["q2"]["1"] = [];
+    nfa.transitionFunction["q2"]["\u03B5"] = [];
+    nfa.transitionFunction["q2"]["0"].push("q3");
+    nfa.transitionFunction["q2"]["\u03B5"].push("q3");
+
+    nfa.transitionFunction["q3"]["0"] = [];
+    nfa.transitionFunction["q3"]["1"] = [];
+    nfa.transitionFunction["q3"]["\u03B5"] = [];
+    nfa.transitionFunction["q3"]["1"].push("q4");
+
+    nfa.transitionFunction["q4"]["0"] = [];
+    nfa.transitionFunction["q4"]["1"] = [];
+    nfa.transitionFunction["q4"]["\u03B5"] = [];
+    nfa.transitionFunction["q4"]["0"].push("q4");
+    nfa.transitionFunction["q4"]["1"].push("q4");
+
+    nfa.finalStates.push("q4");
+
+    console.log(nfa);
 }
