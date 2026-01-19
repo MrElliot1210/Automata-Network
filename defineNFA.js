@@ -1,6 +1,5 @@
 let numStates;
-let symbols;
-let symbolSet;
+let symbolArray;
 
 function generateTransitionFunctionTable() {
     const nfa2 = document.getElementById("nfa2");
@@ -14,13 +13,11 @@ function generateTransitionFunctionTable() {
     // get values from initial input
     numStates = document.getElementById("numStates").valueAsNumber;
 
-    symbols = document.getElementById("symbols").value;
-    symbolSet = new Set (
-        symbols
-            .split(",")
-            .map(s => s.trim()) // remove surrounding spaces
-            .filter(s => s !== "") // remove empty entries
-    );
+    const symbols = document.getElementById("symbols").value;
+    symbolArray = symbols
+        .split(",")
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
     
     // generate html table
     const table = document.createElement("table");
@@ -31,7 +28,7 @@ function generateTransitionFunctionTable() {
     headerRow.appendChild(emptyHeader);
 
     // symbol column headers
-    for (const s of symbolSet) {
+    for (const s of symbolArray) {
         const th = document.createElement("th");
         th.textContent = s;
         headerRow.appendChild(th);
@@ -52,7 +49,7 @@ function generateTransitionFunctionTable() {
         tr.appendChild(rowHeader);
 
         // state select cells
-        for (let j=1; j<=symbolSet.size+1; j++) {
+        for (let j=1; j<=symbolArray.length+1; j++) {
             const td = document.createElement("td");
 
             const select = document.createElement("select");
@@ -114,44 +111,83 @@ function getNFA() {
         finalStates: []
     }
 
-    nfa.states.push("q1");
-    nfa.states.push("q2");
-    nfa.states.push("q3");
-    nfa.states.push("q4");
+    for (let i=1; i<=numStates; i++) {
+        // states
+        nfa.states.push("q" + i);
 
-    nfa.alphabet.push("0");
-    nfa.alphabet.push("1");
+        // transitionFunction
+        nfa.transitionFunction["q" + i] = {};
 
-    nfa.transitionFunction["q1"] = {};
-    nfa.transitionFunction["q2"] = {};
-    nfa.transitionFunction["q3"] = {};
-    nfa.transitionFunction["q4"] = {};
+        for (let j=0; j<symbolArray.length; j++) {
+            nfa.transitionFunction["q"+i][symbolArray[j]] = [];
+            const select = document.getElementById("row"+i+"col"+(j+1));
+            for (const option of select.options) {
+                if (option.selected) {
+                    nfa.transitionFunction["q"+i][symbolArray[j]].push(option.value);
+                }
+            }
+        }
+        // (and ε)
+        nfa.transitionFunction["q"+i]["\u03B5"] = [];
+        const select = document.getElementById("row"+i+"col"+(symbolArray.length+1));
+        for (const option of select.options) {
+            if (option.selected) {
+                nfa.transitionFunction["q"+i]["\u03B5"].push(option.value);
+            }
+        }
+    }
 
-    nfa.transitionFunction["q1"]["0"] = [];
-    nfa.transitionFunction["q1"]["1"] = [];
-    nfa.transitionFunction["q1"]["\u03B5"] = [];
-    nfa.transitionFunction["q1"]["0"].push("q1");
-    nfa.transitionFunction["q1"]["1"].push("q1");
-    nfa.transitionFunction["q1"]["1"].push("q2");
+    // alphabet
+    for (const s of symbolArray) {
+        nfa.alphabet.push(s);
+    }
 
-    nfa.transitionFunction["q2"]["0"] = [];
-    nfa.transitionFunction["q2"]["1"] = [];
-    nfa.transitionFunction["q2"]["\u03B5"] = [];
-    nfa.transitionFunction["q2"]["0"].push("q3");
-    nfa.transitionFunction["q2"]["\u03B5"].push("q3");
+    // finalStates
+    const select = document.getElementById("finalStates");
+    for (const option of select.options) {
+        if (option.selected) {
+            nfa.finalStates.push(option.value);
+        }
+    }
 
-    nfa.transitionFunction["q3"]["0"] = [];
-    nfa.transitionFunction["q3"]["1"] = [];
-    nfa.transitionFunction["q3"]["\u03B5"] = [];
-    nfa.transitionFunction["q3"]["1"].push("q4");
+    // nfa.states.push("q1");
+    // nfa.states.push("q2");
+    // nfa.states.push("q3");
+    // nfa.states.push("q4");
 
-    nfa.transitionFunction["q4"]["0"] = [];
-    nfa.transitionFunction["q4"]["1"] = [];
-    nfa.transitionFunction["q4"]["\u03B5"] = [];
-    nfa.transitionFunction["q4"]["0"].push("q4");
-    nfa.transitionFunction["q4"]["1"].push("q4");
+    // nfa.alphabet.push("0");
+    // nfa.alphabet.push("1");
 
-    nfa.finalStates.push("q4");
+    // nfa.transitionFunction["q1"] = {};
+    // nfa.transitionFunction["q2"] = {};
+    // nfa.transitionFunction["q3"] = {};
+    // nfa.transitionFunction["q4"] = {};
+
+    // nfa.transitionFunction["q1"]["0"] = [];
+    // nfa.transitionFunction["q1"]["1"] = [];
+    // nfa.transitionFunction["q1"]["\u03B5"] = [];
+    // nfa.transitionFunction["q1"]["0"].push("q1");
+    // nfa.transitionFunction["q1"]["1"].push("q1");
+    // nfa.transitionFunction["q1"]["1"].push("q2");
+
+    // nfa.transitionFunction["q2"]["0"] = [];
+    // nfa.transitionFunction["q2"]["1"] = [];
+    // nfa.transitionFunction["q2"]["\u03B5"] = [];
+    // nfa.transitionFunction["q2"]["0"].push("q3");
+    // nfa.transitionFunction["q2"]["\u03B5"].push("q3");
+
+    // nfa.transitionFunction["q3"]["0"] = [];
+    // nfa.transitionFunction["q3"]["1"] = [];
+    // nfa.transitionFunction["q3"]["\u03B5"] = [];
+    // nfa.transitionFunction["q3"]["1"].push("q4");
+
+    // nfa.transitionFunction["q4"]["0"] = [];
+    // nfa.transitionFunction["q4"]["1"] = [];
+    // nfa.transitionFunction["q4"]["\u03B5"] = [];
+    // nfa.transitionFunction["q4"]["0"].push("q4");
+    // nfa.transitionFunction["q4"]["1"].push("q4");
+
+    // nfa.finalStates.push("q4");
 
     console.log(nfa);
 }
