@@ -14,10 +14,15 @@ function generateTransitionFunctionTable() {
     numStates = document.getElementById("numStates").valueAsNumber;
 
     const symbols = document.getElementById("symbols").value;
-    symbolArray = symbols
-        .split(",")
-        .map(s => s.trim())
-        .filter(s => s.length > 0);
+    const symbolSet = new Set (
+        symbols
+            .split(",")
+            .map(s => s.trim()) // remove surrounding spaces
+            .filter(s => s !== "") // remove empty entries
+    );
+    // get set and then convert it to array to remove duplicates
+    // other methods that remove duplicates that do not involve a set are probably O(N^2) and space does not matter
+    symbolArray = [...symbolSet];
     
     // generate html table
     const table = document.createElement("table");
