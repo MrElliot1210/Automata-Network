@@ -102,7 +102,7 @@ function generateTransitionFunctionTable() {
     // submit button
     html = `
         <br><br>
-        <button type="button" onclick="getNFA()">Create NFA</button>
+        <button type="button" onclick="getNFA()">Create and visualise NFA</button>
     `;
     nfa2.innerHTML += html;
 }
@@ -194,5 +194,9 @@ function getNFA() {
 
     // nfa.finalStates.push("q4");
 
-    console.log(nfa);
+    // console.log(nfa);
+
+    // temporarily store NFA for visualisation
+    sessionStorage.setItem("nfa", JSON.stringify(nfa));
+    window.location.assign("NFAVisualisation.html");
 }

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Automata Network</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.33.1/cytoscape.min.js"></script>
+    </head>
+    <body>
+        <h1>Automata Network</h1>
+        <h2>Visualise NFA</h2>
+        <div id="cy" style="width:800px; height:600px; border-style:solid; margin:auto"></div>
+
+        <script>
+            var cy = cytoscape({
+                container: document.getElementById("cy"),
+
+                style: [
+                    {
+                        selector: "node",
+                        style: {
+                            "background-color": "white",
+                            "label": "data(id)",
+                            "font-weight": "bold",
+                            "border-style": "solid",
+                            "border-color": "black",
+                            "border-width": 2,
+                            "text-valign": "center"
+                        }
+                    },
+                    {
+                        selector: "edge",
+                        style: {
+                            "width": 3,
+                            "line-color": "#ccc",
+                            "target-arrow-color": "#ccc",
+                            "target-arrow-shape": "triangle",
+                            "curve-style": "bezier",
+                            "label": "data(label)",
+                            "text-background-color": "#ccc",
+                            "text-background-opacity": 1,
+                            "text-background-shape": "circle",
+                            "text-background-padding": "5px",
+                            "control-point-step-size": 60
+                        }
+                    },
+                    {
+                        selector: "#q1",
+                        style: {
+                            "shape": "rectangle"
+                        }
+                    },
+                    {
+                        selector: ".final",
+                        style: {
+                            "background-color": "#99ff99"
+                        }
+                    }
+                ]
+            });
+
+            const nfa = JSON.parse(sessionStorage.getItem("nfa"));
+            console.log(nfa);
+
+            // add states
+            for (let i=1; i<=nfa.states.length; i++) {
+                let node = {};
+                node["data"] = {};
+                node["data"]["id"] = "q" + i;
+                cy.add(node);
+            }
+
+            // add transitions
+            for (let i=1; i<=nfa.states.length; i++) {
+                for (const symbol of nfa.alphabet) {
+                    for (const transition of nfa.transitionFunction["q"+i][symbol]) {
+                        // these nested for loops ensures there is actually a transition and we are not making any incomplete objects
+                        let edge = {};
+                        edge["data"] = {};
+                        edge["data"]["id"] = "q" + i + symbol + transition;
+                        edge["data"]["source"] = "q" + i;
+                        edge["data"]["label"] = symbol;
+                        edge["data"]["target"] = transition;
+                        cy.add(edge);
+                    }
+                }
+                // don't forget ε!
+                for (const transition of nfa.transitionFunction["q"+i]["\u03B5"]) {
+                    let edge = {};
+                    edge["data"] = {};
+                    edge["data"]["id"] = "q" + i + "\u03B5" + transition;
+                    edge["data"]["source"] = "q" + i;
+                    edge["data"]["label"] = "\u03B5";
+                    edge["data"]["target"] = transition;
+                    cy.add(edge);
+                }
+            }
+
+            // specify final states
+            for (const state of nfa.finalStates) {
+                cy.$("#" + state).addClass("final");
+            }
+
+            // layout must be refreshed after adding nodes
+            var layout = cy.layout({ name: 'circle' });
+            layout.run();
+        </script>
+
+    </body>
+</html>
