@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Automata Network - Define NFA</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="defineNFA.js" defer></script>
+    </head>
+    <body>
+        <h1>Automata Network</h1>
+        <button onclick="window.location.assign('index.html');">Back To Homepage</button>
+        <h2>Define NFA</h2>
+
+        <div id="nfa1">
+            <label for="numStates">Enter the number of states:</label>
+            <input type="number" id="numStates" min="0" value="1">
+            <br>
+            <label for="symbols">Enter the symbols for the alphabet (separated by commas):</label>
+            <input type="text" id="symbols" value="a,b">
+            <br>
+            <button type="button" onclick="generateTransitionFunctionTable()">Proceed to transition function and final states</button>
+        </div>
+
+        <div id="nfa2"></div>
+    </body>
+</html>

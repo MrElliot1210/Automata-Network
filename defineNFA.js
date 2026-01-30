@@ -102,7 +102,7 @@ function generateTransitionFunctionTable() {
     // submit button
     html = `
         <br><br>
-        <button type="button" onclick="getNFA()">Create and visualise NFA</button>
+        <button type="button" onclick="getNFA()">Save NFA</button>
     `;
     nfa2.innerHTML += html;
 }
@@ -196,7 +196,13 @@ function getNFA() {
 
     // console.log(nfa);
 
-    // temporarily store NFA for visualisation
-    sessionStorage.setItem("nfa", JSON.stringify(nfa));
-    window.location.assign("NFAVisualisation.html");
+    // save NFA after naming it
+    let name = prompt("Enter the name of the NFA");
+    if (name != null) {
+        const savedNFAs = JSON.parse(localStorage.getItem("NFAs")) || {}; // if there is nothing in localStorage, declare an empty object instead
+        savedNFAs[name] = nfa;
+        localStorage.setItem("NFAs", JSON.stringify(savedNFAs));
+        // we are doing it this way with the "NFAs" key because we could have DFAs or any other sets of data be stored separately
+        window.location.assign('index.html');
+    }
 }
