@@ -4,8 +4,8 @@ let symbolArray;
 function generateTransitionFunctionTable() {
     const nfa2 = document.getElementById("nfa2");
     let html = `
-        <p><b>Note:</b> The initial state will be q1</p>
-        <p>(To select multiple options or disselect an option, hold control (Windows) or command (MacOS) and click.)</p>
+        <p><b>Note:</b> The initial state will be q1.</p>
+        <p>To select multiple options or disselect an option, hold control (Windows) or command (MacOS) and click.</p>
         <p><b><u>Transition function:</b></u></p>
     `;
     nfa2.innerHTML += html;

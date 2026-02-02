@@ -9,7 +9,24 @@
         <h1>Automata Network</h1>
         <button onclick="window.location.assign('index.html');">Back To Homepage</button>
         <h2>Visualise NFA</h2>
-        <div id="cy" style="width:800px; height:600px; border-style:solid; margin:auto"></div>
+        <p><u><b>Instructions:</b></u></p>
+        <ul>
+            <li>Click and drag nodes to move them around.</li>
+            <li>Click and drag the background to move the view around.</li>
+            <li>Scroll to zoom in and out.</li>
+        </ul>
+
+        <div style="display: flex;">
+            <div id="cy" style="width: 640px; height: 480px; border-style: solid;"></div>
+            <div style="margin-left: 5px;">
+                <p><u><b>Key:</b></u></p>
+                <ul>
+                    <li><span style="border-style: solid;">Square</span> node shape: Initial state</li>
+                    <br>
+                    <li><span style="background-color: #99ff99;">Green</span> fill colour: Final state</li>
+                </ul>
+            </div>
+        </div>
 
         <script>
             var cy = cytoscape({
