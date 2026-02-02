@@ -35,6 +35,8 @@ for (const nfa in savedNFAs) {
 
     button.textContent = nfa;
     button.onclick = function() { loadNFA(savedNFAs[nfa]) };
+
+    deleteButton.className = "delete";
     deleteButton.textContent = "delete " + nfa;
     deleteButton.onclick = function() { deleteNFA(nfa) };
 
