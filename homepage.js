@@ -8,9 +8,20 @@ function loadNFA(nfa) {
 }
 
 function deleteNFA(nfa) {
-    delete savedNFAs[nfa];
-    localStorage.setItem("NFAs", JSON.stringify(savedNFAs));
-    location.reload();
+    let confirmation = confirm("The NFA named '" + nfa + "' will be deleted. Proceed?");
+    if (confirmation == true) {
+        delete savedNFAs[nfa];
+        localStorage.setItem("NFAs", JSON.stringify(savedNFAs));
+        location.reload();
+    }
+}
+
+function deleteAllNFAs() {
+    let confirmation = confirm("All saved NFAs will be deleted. Proceed?");
+    if (confirmation == true) {
+        localStorage.clear();
+        location.reload();
+    }
 }
 
 // generate saved NFAs interface
