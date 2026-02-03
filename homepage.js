@@ -48,4 +48,16 @@ for (const nfa in savedNFAs) {
 }
 
 const interface = document.getElementById("savedNFAs");
-interface.appendChild(table);
+if (Object.keys(savedNFAs).length === 0) {
+    interface.innerHTML = "<p>There are no saved NFAs.</p>";
+} else {
+    interface.innerHTML += "<p>Click on an NFA to visualise it in graphical form.</p>";
+    interface.appendChild(table);
+    const br = document.createElement("br");
+    interface.appendChild(br);
+    const button = document.createElement("button");
+    button.onclick = function() { deleteAllNFAs() };
+    button.className = "delete";
+    button.innerText = "Delete all saved NFAs";
+    interface.appendChild(button);
+}
