@@ -197,7 +197,7 @@ function getNFA() {
     // console.log(nfa);
 
     // save NFA after naming it
-    let name = prompt("Enter the name of the NFA");
+    let name = prompt("Enter the name of the NFA.");
     if (name != null) {
         const savedNFAs = JSON.parse(localStorage.getItem("NFAs")) || {}; // if there is nothing in localStorage, declare an empty object instead
         savedNFAs[name] = nfa;

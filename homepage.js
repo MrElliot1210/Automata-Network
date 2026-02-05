@@ -1,5 +1,4 @@
 const savedNFAs = JSON.parse(localStorage.getItem("NFAs")) || {}; // if there is nothing in localStorage, declare an empty object instead
-console.log(savedNFAs);
 
 function loadNFA(nfa) {
     sessionStorage.setItem("nfa", JSON.stringify(nfa));

@@ -42,7 +42,8 @@
                             "border-style": "solid",
                             "border-color": "black",
                             "border-width": 2,
-                            "text-valign": "center"
+                            "text-valign": "center",
+                            "width": 45
                         }
                     },
                     {
@@ -80,33 +81,33 @@
             console.log(nfa);
 
             // add states
-            for (let i=1; i<=nfa.states.length; i++) {
+            for (const state of nfa.states) {
                 let node = {};
                 node["data"] = {};
-                node["data"]["id"] = "q" + i;
+                node["data"]["id"] = state;
                 cy.add(node);
             }
 
             // add transitions
-            for (let i=1; i<=nfa.states.length; i++) {
+            for (const state of nfa.states) {
                 for (const symbol of nfa.alphabet) {
-                    for (const transition of nfa.transitionFunction["q"+i][symbol]) {
+                    for (const transition of nfa.transitionFunction[state][symbol]) {
                         // these nested for loops ensures there is actually a transition and we are not making any incomplete objects
                         let edge = {};
                         edge["data"] = {};
-                        edge["data"]["id"] = "q" + i + symbol + transition;
-                        edge["data"]["source"] = "q" + i;
+                        edge["data"]["id"] = state + symbol + transition;
+                        edge["data"]["source"] = state;
                         edge["data"]["label"] = symbol;
                         edge["data"]["target"] = transition;
                         cy.add(edge);
                     }
                 }
                 // don't forget ε!
-                for (const transition of nfa.transitionFunction["q"+i]["\u03B5"]) {
+                for (const transition of nfa.transitionFunction[state]["\u03B5"]) {
                     let edge = {};
                     edge["data"] = {};
-                    edge["data"]["id"] = "q" + i + "\u03B5" + transition;
-                    edge["data"]["source"] = "q" + i;
+                    edge["data"]["id"] = state + "\u03B5" + transition;
+                    edge["data"]["source"] = state;
                     edge["data"]["label"] = "\u03B5";
                     edge["data"]["target"] = transition;
                     cy.add(edge);
