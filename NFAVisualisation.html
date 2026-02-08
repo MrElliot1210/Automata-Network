@@ -63,7 +63,7 @@
                         }
                     },
                     {
-                        selector: "#q1",
+                        selector: ".initial",
                         style: {
                             "shape": "rectangle"
                         }
@@ -87,6 +87,9 @@
                 node["data"]["id"] = state;
                 cy.add(node);
             }
+
+            // specify initial state
+            cy.$("#" + nfa.initialState).addClass("initial");
 
             // add transitions
             for (const state of nfa.states) {
