@@ -4,7 +4,53 @@ function star() {
     const name = document.getElementById("nfa").value;
     const nfa = savedNFAs[name];
 
-    console.log(nfa);
+    const newNFA = {
+        states: ["q0"],
+        alphabet: [...nfa.alphabet],
+        transitionFunction: {},
+        initialState: "q0",
+        finalStates: []
+    }
+
+    // add a "S" suffix to all states of nfa
+    for (const state of nfa.states) {
+        newNFA.states.push(state + "S");
+
+        newNFA.transitionFunction[state + "S"] = {};
+        for (const symbol of nfa.alphabet) {
+            newNFA.transitionFunction[state + "S"][symbol] = [];
+            for (const transition of nfa.transitionFunction[state][symbol]) {
+                newNFA.transitionFunction[state + "S"][symbol].push(transition + "S");
+            }
+        }
+        newNFA.transitionFunction[state + "S"]["\u03B5"] = [];
+        for (const transition of nfa.transitionFunction[state]["\u03B5"]) {
+            newNFA.transitionFunction[state + "S"]["\u03B5"].push(transition + "S");
+        }
+    }
+    for (const finalState of nfa.finalStates) {
+        newNFA.finalStates.push(finalState + "S");
+
+        // add ε-transitions for star
+        newNFA.transitionFunction[finalState + "S"]["\u03B5"].push(nfa.initialState + "S");
+    }
+
+    // add rest of parts to make it star
+    newNFA.transitionFunction["q0"] = {};
+    for (const symbol of newNFA.alphabet) {
+        newNFA.transitionFunction["q0"][symbol] = [];
+    }
+    newNFA.transitionFunction["q0"]["\u03B5"] = [];
+    newNFA.transitionFunction["q0"]["\u03B5"].push(nfa.initialState + "S");
+    newNFA.finalStates.push("q0");
+
+    // save new NFA
+    let newName = prompt("Enter the name of the new NFA made from '" + name + "'*.");
+    if (newName != null) {
+        savedNFAs[newName] = newNFA;
+        localStorage.setItem("NFAs", JSON.stringify(savedNFAs));
+        window.location.assign('index.html');
+    }
 }
 
 // generate interface to select NFA for star
