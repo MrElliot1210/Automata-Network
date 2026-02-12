@@ -7,10 +7,10 @@ function union() {
     const nfa2 = savedNFAs[name2];
     
     const newNFA = {
-        states: [],
+        states: ["q0"],
         alphabet: Array.from(new Set([...nfa1.alphabet, ...nfa2.alphabet])),
         transitionFunction: {},
-        initialState: "q1",
+        initialState: "q0",
         finalStates: []
     }
 
@@ -55,14 +55,13 @@ function union() {
     }
 
     // add bit at start for union
-    newNFA.states.push("q1");
-    newNFA.transitionFunction["q1"] = {};
+    newNFA.transitionFunction["q0"] = {};
     for (const symbol of newNFA.alphabet) {
-        newNFA.transitionFunction["q1"][symbol] = [];
+        newNFA.transitionFunction["q0"][symbol] = [];
     }
-    newNFA.transitionFunction["q1"]["\u03B5"] = [];
-    newNFA.transitionFunction["q1"]["\u03B5"].push(nfa1.initialState + "A");
-    newNFA.transitionFunction["q1"]["\u03B5"].push(nfa2.initialState + "B");
+    newNFA.transitionFunction["q0"]["\u03B5"] = [];
+    newNFA.transitionFunction["q0"]["\u03B5"].push(nfa1.initialState + "A");
+    newNFA.transitionFunction["q0"]["\u03B5"].push(nfa2.initialState + "B");
 
     // save new NFA
     let newName = prompt("Enter the name of the new NFA made from '" + name1 + "' \u222A '" + name2 + "'.");
