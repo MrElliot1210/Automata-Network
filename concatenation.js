@@ -10,51 +10,51 @@ function concatenation() {
         states: [],
         alphabet: Array.from(new Set([...nfa1.alphabet, ...nfa2.alphabet])),
         transitionFunction: {},
-        initialState: nfa1.initialState + "A",
+        initialState: nfa1.initialState,
         finalStates: []
     }
 
-    // add a "A" suffix to all states of nfa1
+    // keep nfa1 the same
     for (const state of nfa1.states) {
-        newNFA.states.push(state + "A");
+        newNFA.states.push(state);
 
-        newNFA.transitionFunction[state + "A"] = {};
+        newNFA.transitionFunction[state] = {};
         for (const symbol of nfa1.alphabet) {
-            newNFA.transitionFunction[state + "A"][symbol] = [];
+            newNFA.transitionFunction[state][symbol] = [];
             for (const transition of nfa1.transitionFunction[state][symbol]) {
-                newNFA.transitionFunction[state + "A"][symbol].push(transition + "A");
+                newNFA.transitionFunction[state][symbol].push(transition);
             }
         }
-        newNFA.transitionFunction[state + "A"]["\u03B5"] = [];
+        newNFA.transitionFunction[state]["\u03B5"] = [];
         for (const transition of nfa1.transitionFunction[state]["\u03B5"]) {
-            newNFA.transitionFunction[state + "A"]["\u03B5"].push(transition + "A");
+            newNFA.transitionFunction[state]["\u03B5"].push(transition);
         }
     }
 
-    // add a "B" suffix to all states of nfa2
+    // add a "C" suffix to all states of nfa2
     for (const state of nfa2.states) {
-        newNFA.states.push(state + "B");
+        newNFA.states.push(state + "C");
 
-        newNFA.transitionFunction[state + "B"] = {};
+        newNFA.transitionFunction[state + "C"] = {};
         for (const symbol of nfa2.alphabet) {
-            newNFA.transitionFunction[state + "B"][symbol] = [];
+            newNFA.transitionFunction[state + "C"][symbol] = [];
             for (const transition of nfa2.transitionFunction[state][symbol]) {
-                newNFA.transitionFunction[state + "B"][symbol].push(transition + "B");
+                newNFA.transitionFunction[state + "C"][symbol].push(transition + "C");
             }
         }
-        newNFA.transitionFunction[state + "B"]["\u03B5"] = [];
+        newNFA.transitionFunction[state + "C"]["\u03B5"] = [];
         for (const transition of nfa2.transitionFunction[state]["\u03B5"]) {
-            newNFA.transitionFunction[state + "B"]["\u03B5"].push(transition + "B");
+            newNFA.transitionFunction[state + "C"]["\u03B5"].push(transition + "C");
         }
     }
     // keep the final states of nfa2
     for (const finalState of nfa2.finalStates) {
-        newNFA.finalStates.push(finalState + "B");
+        newNFA.finalStates.push(finalState + "C");
     }
 
     // add transitions for concatenation
     for (const finalState of nfa1.finalStates) {
-        newNFA.transitionFunction[finalState + "A"]["\u03B5"].push(nfa2.initialState + "B");
+        newNFA.transitionFunction[finalState]["\u03B5"].push(nfa2.initialState + "C");
     }
 
     // save new NFA
