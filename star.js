@@ -68,7 +68,7 @@ const interface = document.getElementById("interface");
 if (Object.keys(savedNFAs).length === 0) {
     interface.innerHTML = "<p>Define and save NFAs to perform the star operation on them.</p>";
 } else {
-    interface.innerHTML = "<p>Select a NFA to perform the star operation on.</p>"
+    interface.innerHTML = "<p>Select an NFA to perform the star operation on.</p>"
     interface.appendChild(select);
     interface.innerHTML += "*";
 

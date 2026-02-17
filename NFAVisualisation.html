@@ -9,6 +9,7 @@
         <h1>Automata Network</h1>
         <button onclick="window.location.assign('index.html');">Back To Homepage</button>
         <h2>Visualise NFA</h2>
+        <p id="nfaName"></p>
         <p><u><b>Instructions:</b></u></p>
         <ul>
             <li>Click and drag nodes to move them around.</li>
@@ -79,6 +80,9 @@
 
             const nfa = JSON.parse(sessionStorage.getItem("nfa"));
             console.log(nfa);
+
+            // display name of NFA
+            document.getElementById("nfaName").innerText = "Visualising '" + sessionStorage.getItem("name") + "'.";
 
             // add states
             for (const state of nfa.states) {
