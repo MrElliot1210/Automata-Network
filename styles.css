@@ -10,3 +10,7 @@ table {
 .delete {
     color: crimson;
 }
+
+body {
+    font-family: Arial, sans-serif;
+}
