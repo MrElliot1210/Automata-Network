@@ -33,6 +33,14 @@ function union() {
     for (const finalState of nfa1.finalStates) {
         newNFA.finalStates.push(finalState + "A");
     }
+    // add empty arrays that are missing
+    for (const symbol of nfa2.alphabet) {
+        if (!nfa1.alphabet.includes(symbol)) {
+            for (const state of nfa1.states) {
+                newNFA.transitionFunction[state + "A"][symbol] = [];
+            }
+        }
+    }
 
     // add a "B" suffix to all states of nfa2
     for (const state of nfa2.states) {
@@ -52,6 +60,14 @@ function union() {
     }
     for (const finalState of nfa2.finalStates) {
         newNFA.finalStates.push(finalState + "B");
+    }
+    // add empty arrays that are missing
+    for (const symbol of nfa1.alphabet) {
+        if (!nfa2.alphabet.includes(symbol)) {
+            for (const state of nfa2.states) {
+                newNFA.transitionFunction[state + "B"][symbol] = [];
+            }
+        }
     }
 
     // add bit at start for union

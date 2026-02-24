@@ -30,6 +30,14 @@ function concatenation() {
             newNFA.transitionFunction[state]["\u03B5"].push(transition);
         }
     }
+    // add empty arrays that are missing
+    for (const symbol of nfa2.alphabet) {
+        if (!nfa1.alphabet.includes(symbol)) {
+            for (const state of nfa1.states) {
+                newNFA.transitionFunction[state][symbol] = [];
+            }
+        }
+    }
 
     // add a "C" suffix to all states of nfa2
     for (const state of nfa2.states) {
@@ -50,6 +58,14 @@ function concatenation() {
     // keep the final states of nfa2
     for (const finalState of nfa2.finalStates) {
         newNFA.finalStates.push(finalState + "C");
+    }
+    // add empty arrays that are missing
+    for (const symbol of nfa1.alphabet) {
+        if (!nfa2.alphabet.includes(symbol)) {
+            for (const state of nfa2.states) {
+                newNFA.transitionFunction[state + "C"][symbol] = [];
+            }
+        }
     }
 
     // add transitions for concatenation
